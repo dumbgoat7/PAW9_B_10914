@@ -205,7 +205,7 @@
         right
         shaped
         bottom>
-        <v-icon color="white"> mdi-heart </v-icon>
+        <v-icon color="white" class="mr-2"> mdi-heart </v-icon>
         Note Priority : {{editTask.priority}} 
         </v-snackbar>
 
@@ -217,7 +217,7 @@
         left
         shaped
         top>
-        <v-icon color="white"> </v-icon>
+        <v-icon color="white" class="mr-2"> mdi-pause </v-icon>
         Note Priority : {{editTask.priority}}
         </v-snackbar>
     </v-main>
