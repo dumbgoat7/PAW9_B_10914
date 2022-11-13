@@ -49,6 +49,7 @@
             items: [
                 { title: "Dashboard", to: "/" },
                 { title: "Guided", to: "/gd" },
+                { title: "Activity Unguided", to: "/ugd"},
                 ],
             };
         },

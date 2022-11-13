@@ -84,8 +84,8 @@
                     value: "task",
                 },
                 { text: "Priority", value: "priority"},
-                { text: "Note", value: "priority"},
-                { text: "Status", value: "note"},
+                { text: "Note", value: "note"},
+                { text: "Status", value: "status"},
                 { text: "Actions", value: "actions"},
             ],
             todos: [
