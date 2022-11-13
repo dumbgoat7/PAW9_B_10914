@@ -43,14 +43,28 @@
                     </span>
                 </template>
                 <template v-slot:[`item.actions`]="{ item }"> 
-                    <v-btn
-                    outlined
-                    medium
-                    fab
-                    @click="editItem(item)"
-                    color="#E72A00">
-                        <v-icon> mdi-pencil</v-icon>
-                    </v-btn>
+                    <span v-if="item.status == 'Selesai'">
+                        <v-btn
+                        outlined
+                        medium
+                        fab
+                        @click="editItem(item)"
+                        color="#E72A00"
+                        disabled>
+                            <v-icon> mdi-pencil</v-icon>
+                        </v-btn>
+                    </span>
+                    <span v-else >
+                        <v-btn
+                        outlined
+                        medium
+                        fab
+                        @click="editItem(item)"
+                        color="#E72A00">
+                            <v-icon> mdi-pencil</v-icon>
+                        </v-btn>
+                    </span>
+                    
                     <v-btn
                     class="ml-2"
                     outlined
