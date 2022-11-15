@@ -21,13 +21,12 @@
                 
                 <v-spacer></v-spacer>
                 <v-select
-                v-model="filter"
-                :items="priority"
-                label="Search"
-                hide
-                details
+                v-model="filter.priority"
+                :items="['All','Urgent','Not Important']"
+                label="Filter by Priority"
                 style="margin-top: 30px; margin-right: 30px; float:right">
                 </v-select>
+
                 <v-btn color="success" dark @click="dialog = true"> Tambah </v-btn>
             </v-card-title>
         </v-card>
@@ -119,6 +118,13 @@
                         </div>
                     </td>
                 </template>
+
+                <template v-slot:[`item.checkbox`]="{ item }">
+                    <v-container fluid>
+                        <v-checkbox v-model="item.checkbox" @click="deleteMany(item)"> </v-checkbox>
+                    </v-container>
+                </template>
+
             </v-data-table>
         </v-card>
         <v-dialog v-model="dialog" persistent max-width="600px">
@@ -194,6 +200,17 @@
             </v-card>
         </v-dialog>
         
+        <v-card>
+        <p style="font-size: 22px; font-weight: bold; margin-left: 10px; padding-top: 10px; margin-top: 10px">Delete Multiple</p>
+        <ul v-for="(item, index) in todos" :key="index">
+            <li v-if="item.checkbox == true" style="margin-left: 5px; margin-top: 5px">
+            {{ item.task }}
+            </li>
+        </ul>
+        <br />
+        <v-btn class="red darken-2" @click="deleteAll(item)" style="color:azure; margin-left: 10px; margin-bottom: 10px">HAPUS SEMUA</v-btn>
+        </v-card>
+
         <v-dialog v-model="deleteTask"
         :multi-line="multiLine"
         centered
@@ -247,6 +264,10 @@
     </v-main>
 </template>
 
+// buat filter
+// https://vuetifyjs.com/en/components/data-tables/#footer-props
+// https://www.codeply.com/p/krbUh6q9yE
+
 <script>
 
     export default {
@@ -261,7 +282,6 @@
                 mutliLine: true,
                 singleExpand: true,
                 search: null,
-                filter: null,
                 dialog: false,
                 edit:false,
                 headers: [{
@@ -270,45 +290,55 @@
                     sortable: true,
                     value: "task",
                 },
-                { text: "Priority", value: "priority"},
+                { text: "Priority", value: "priority", 
+                    filter: value => {
+                        if(this.filter.priority == 'All')
+                            return true
+                        return value == this.filter.priority
+                    },
+                },
                 { text: "Note", value: "note"},
                 { text: "Status", value: "status"},
                 { text: "Actions", value: "actions"},
-            ],
-            todos: [
-                {
-                    task: "Coding",
-                    priority: "Urgent",
-                    note: "Code for your life",
-                    status: "Belum Selesai",
+                { text: "", value: "checkbox"},
+                ],
+                todos: [
+                    {
+                        task: "Coding",
+                        priority: "Urgent",
+                        note: "Code for your life",
+                        status: "Belum Selesai",
+                    },
+                    {
+                        task: "Cooking",
+                        priority: "Normal",
+                        note: "Indomie saat begadang ngerjain coding terbaek",
+                        status: "Selesai",
+                    },
+                    {
+                        task: "Gaming",
+                        priority: "Not Important",
+                        note: "Wasting time",
+                        status: "Belum Selesai",
+                    }
+                ],
+                editTask: {
+                    task: null,
+                    priority: null,
+                    note: null,
+                    status: null,
                 },
-                {
-                    task: "Cooking",
-                    priority: "Normal",
-                    note: "Indomie saat begadang ngerjain coding terbaek",
-                    status: "Selesai",
+                formTodo: {
+                    task: null,
+                    priority: null,
+                    note: null,
+                    status: null,
                 },
-                {
-                    task: "Gaming",
-                    priority: "Not Important",
-                    note: "Wasting time",
-                    status: "Belum Selesai",
-                }
-            ],
-            editTask: {
-                task: null,
-                priority: null,
-                note: null,
-                status: null,
-            },
-            formTodo: {
-                task: null,
-                priority: null,
-                note: null,
-                status: null,
-            },
-            priority: ['Urgent','Not Important','Normal'],        
-        };
+                filter: {
+                    priority: 'All',
+                },
+                listDelete: [],        
+            };
         },
         methods: {
             save() {
@@ -358,12 +388,12 @@
                     this.snackbarNormal = true;
                 }
             },
-            filterbyPriority (value, search) {
-                return value != null &&
-                search != null &&
-                typeof value === 'string' &&
-                value.toString().toLocaleUpperCase().indexOf(search) !== -1
+            ondeleteMany(item) {
+                this.listDelete.push(item);
             },
+            // deleteMany(item) {
+            //  
+            // }
             
         },
     };
