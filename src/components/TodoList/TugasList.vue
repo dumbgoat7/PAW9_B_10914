@@ -391,8 +391,9 @@
             ondeleteMany(item) {
                 this.listDelete.push(item);
             },
+            // https://stackoverflow.com/questions/49335634/splice-array-by-value-in-vue
             // deleteMany(item) {
-            //  
+            //  this.todos = this.listDelete.filter(title => title !== item.task)
             // }
             
         },
