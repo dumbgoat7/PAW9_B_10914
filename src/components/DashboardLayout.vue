@@ -51,6 +51,7 @@
                 { title: "Guided", to: "/gd" },
                 { title: "Activity Unguided", to: "/ugd"},
                 { title: "Activity Tugas", to: "/tgs"},
+                { title: "pwa_0914", to: "/pwa"},
                 ],
             };
         },
